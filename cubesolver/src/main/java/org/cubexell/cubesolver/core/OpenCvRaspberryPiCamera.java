@@ -225,8 +225,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         //Mat bgrEqualizedSquare = equalizeLighting(square);
         Mat bgrBlurredSquare = new Mat();
         GaussianBlur(square, bgrBlurredSquare, new Size(5, 5), 0);
-
-
+        
         int red=0, orange=0, white=0, yellow=0, green=0, blue=0;
 
         float hue = 0, saturation = 0, value = 0;

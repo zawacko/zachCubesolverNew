@@ -1,9 +1,6 @@
 package org.cubexell.cubesolver.core;
 
 public class CubeConstants {
-    public static final int EXECUTE_MOVE_MOTOR = 0;
-    public static final int EXECUTE_MOVE_SIMULATION = 1;
-    public static final int EXECUTE_MOVE_BOTH = 2;
 
     public static final int LEFT_FACE_INDEX =  0;
     public static final int BACK_FACE_INDEX =  1;

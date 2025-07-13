@@ -3,7 +3,7 @@ package org.cubexell.cubesolver.core;
 import java.util.ArrayList;
 
 import static org.cubexell.cubesolver.core.CubeConstants.*;
-
+//DON'T CHANGE
 public class BeginnerMethod
         implements CubeSolvingMethod {
     Cube cube;

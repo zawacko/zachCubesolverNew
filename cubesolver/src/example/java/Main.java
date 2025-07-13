@@ -31,6 +31,7 @@ public class Main {
 
 		CubeScrambler scrambler = new CubeScrambler(robot);;
 //		String[] scrambleMoves = {"Ri","Bi","Ri","F2","L","F2","B","R","Ui","R","Fi","U","Li","B","L2","U2","B2","F2","L2","F"};
+//		scrambler.randomScramble();
 //		System.out.println ("------Scramble------------");
 //		for (int i = 0; i < scrambleMoves.length; i++) {
 //			System.out.print (scrambleMoves[i]+",");
@@ -41,7 +42,6 @@ public class Main {
 		CubeColorInspector inspector = new OpenCvRaspberryPiCamera(robot);
 
 		char[][][] cubeColors = inspector.inspect();
-
 		//char[][][] cubeColors = scrambler.randomScramble();
 		Cube cube = new Cube(cubeColors);
 		System.out.println ("------After scramble------------");

@@ -2,7 +2,6 @@ package org.cubexell.cubesolver.core;
 
 import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
-import com.pi4j.io.gpio.*;
 import com.pi4j.io.gpio.digital.DigitalOutput;
 import java.util.concurrent.locks.LockSupport;
 
@@ -35,28 +34,32 @@ public class RohsStepperMotor implements Motor{
     }
 
     int motorStepCounter = 0;
-    public void doTurn(double stepsToTurn, boolean direction) throws InterruptedException {
+    public void step(){
+        if (stepSequence[motorStepCounter][0] == 1){
+            in1.high();//doing stuff
+        } else{
+            in1.low();//not doing stuff
+        }
+        if (stepSequence[motorStepCounter][1] == 1){
+            in2.high();
+        } else{
+            in2.low();
+        }
+        if (stepSequence[motorStepCounter][2] == 1){
+            in3.high();
+        } else{
+            in3.low();
+        }
+        if (stepSequence[motorStepCounter][3] == 1){
+            in4.high();
+        } else{
+            in4.low();
+        }
+
+    }
+    public void doSteps(double stepsToTurn, boolean direction) throws InterruptedException {
         for (int i=0; i<stepsToTurn; i++){
-            if (stepSequence[motorStepCounter][0] == 1){
-                in1.high();//doing stuff
-            } else{
-                in1.low();//not doing stuff
-            }
-            if (stepSequence[motorStepCounter][1] == 1){
-                in2.high();
-            } else{
-                in2.low();
-            }
-            if (stepSequence[motorStepCounter][2] == 1){
-                in3.high();
-            } else{
-                in3.low();
-            }
-            if (stepSequence[motorStepCounter][3] == 1){
-                in4.high();
-            } else{
-                in4.low();
-            }
+            step();
             if (direction){
                 motorStepCounter = ((motorStepCounter-1)+stepSequence.length)%stepSequence.length;
             } else{
@@ -75,7 +78,7 @@ public class RohsStepperMotor implements Motor{
             numRotations = numRotations*-1;
         }
         try {
-            doTurn((int) (Math.round(32 * 64 * 2 *numRotations)), direction);
+            doSteps((int) (Math.round(32 * 64 * 2 *numRotations)), direction);
         } catch (InterruptedException e) {
             System.out.println("Motor in trouble");
         } catch (Exception e) {

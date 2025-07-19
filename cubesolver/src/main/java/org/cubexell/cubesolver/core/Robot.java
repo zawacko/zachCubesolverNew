@@ -73,7 +73,7 @@ public abstract class Robot {
         this.backMotor = backMotor;
     }
 
-    public void resetMotors(){
+    public void resetMotors(){//so doesn't hold position so corner cutting works better
         upMotor.reset();
         downMotor.reset();
         rightMotor.reset();

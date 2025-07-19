@@ -37,11 +37,10 @@ public class RohsStepperMotor implements Motor{
     int motorStepCounter = 0;
     public void doTurn(double stepsToTurn, boolean direction) throws InterruptedException {
         for (int i=0; i<stepsToTurn; i++){
-            long startTime = System.nanoTime();
             if (stepSequence[motorStepCounter][0] == 1){
-                in1.high();
+                in1.high();//doing stuff
             } else{
-                in1.low();
+                in1.low();//not doing stuff
             }
             if (stepSequence[motorStepCounter][1] == 1){
                 in2.high();
@@ -63,7 +62,7 @@ public class RohsStepperMotor implements Motor{
             } else{
                 motorStepCounter = (motorStepCounter+1)%stepSequence.length;
             }
-            LockSupport.parkNanos(1000000);
+            LockSupport.parkNanos(1000000);//wait 1 millisecond
 
         }
         reset();
@@ -80,7 +79,7 @@ public class RohsStepperMotor implements Motor{
         } catch (InterruptedException e) {
             System.out.println("Motor in trouble");
         } catch (Exception e) {
-            System.out.println("cought exception" + e);
+            System.out.println("caught exception" + e);
             e.printStackTrace();
         }
 

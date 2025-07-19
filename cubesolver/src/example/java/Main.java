@@ -7,6 +7,7 @@ import com.pi4j.Pi4J;
 import com.pi4j.io.gpio.*;
 
 import java.util.Arrays;
+import java.util.concurrent.locks.LockSupport;
 
 
 
@@ -20,9 +21,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Scramble Cube? (Y or N): ");
+        while (!scanner.hasNextLine()){
+                LockSupport.parkNanos(10000);
+        }
         String isScramblingCube = scanner.nextLine();
 
         System.out.println("Use OP, Beginner, or Kociemba method (1 for OP, 2 for beginner, 3 for Kociemba): ");
+        while (!scanner.hasNextLine()){
+                LockSupport.parkNanos(10000);
+        }
         int method = scanner.nextInt();
 
 		scanner.close();

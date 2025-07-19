@@ -22,35 +22,22 @@ public class Main {
         //Scanner scanner = new Scanner(System.in);
         Console console = System.console();
         String method = "B";
-        String isScramblingCube = "N";
+        String isScramblingCube = "Y";
 
         String cubeSolvingMethod;
-        if (console != null) {
-                System.out.println("Scramble Cube? (Y or N): ");
-                isScramblingCube = console.readLine();
 
-                System.out.println("Use OP, Beginner, or Kociemba method (O for OP, B for beginner, K for Kociemba): ");
-                method = console.readLine();
-
-
+        if (args.length > 1 && args[0] != null) {
+            method = args[0];
+            isScramblingCube = args[1];
+        }
+        if ("O".equalsIgnoreCase(method)) {
+            cubeSolvingMethod = "Old Pochmann";
+        }
+        else if ("B".equalsIgnoreCase(method)) {
+            cubeSolvingMethod = "Beginner";
         }
         else {
-                System.out.println("Console is null");
-        }
-
-            if ("O".equalsIgnoreCase(method)) {
-                    cubeSolvingMethod = "Old Pochmann";
-            }
-            else if ("B".equalsIgnoreCase(method)) {
-                    cubeSolvingMethod = "Beginner";
-            }
-            else {
-                    cubeSolvingMethod = "Kociemba";
-            }
-
-
-        if (args.length > 0 && args[0] != null) {
-            cubeSolvingMethod = args[0];
+            cubeSolvingMethod = "Kociemba";
         }
 
         Motor upMotor = new RohsStepperMotor(24, 25, 8, 7);

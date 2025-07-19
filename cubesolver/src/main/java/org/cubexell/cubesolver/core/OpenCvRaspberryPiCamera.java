@@ -124,19 +124,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     public char[][] inspectLeftFace(char center) {
         return new char[][]{
                 {
-                        findColor(1950,75,225,100),
-                        findColor(2320,450,200,125),
-                        findColor(2600,640,90,50),
+                        findColor(1850,300,225,100),
+                        findColor(2220,600,200,125),
+                        findColor(2525,800,90,50),
                 },
                 {
-                        findColor(1925,500,300,215),
+                        findColor(1850,725,300,215),
                         center,
-                        findColor(2715,1060,125,275)
+                        findColor(2715,1180,125,250)
                 },
                 {
-                        findColor(1910,1040,375,315),
-                        findColor(2425,1325,200,275),
-                        findColor(2800,1515,150,300)
+                        findColor(1850,1180,375,315),
+                        findColor(2425,1400,200,275),
+                        findColor(2800,1640,150,300)
                 },
         };
     }
@@ -144,19 +144,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     public char[][] inspectDownFace(char center) {
         return new char[][]{
                 {
-                        findColor(2490,1975,375,95),
-                        findColor(2020,2030,300,65),
-                        findColor(1870,2110,80,40),
+                        findColor(2490,2080,375,95),
+                        findColor(2020,2230,300,65),
+                        findColor(1900,2390,80,40),
                 },
                 {
-                        findColor(2165,1800,375,125),
+                        findColor(2165,1900,375,125),
                         center,
-                        findColor(1400,2015,150,90)
+                        findColor(1400,2200,150,90)
                 },
                 {
-                        findColor(1590,1565,500,180),
-                        findColor(1230,1740,250,190),
-                        findColor(800,1880,280,75)
+                        findColor(1590,1675,500,180),
+                        findColor(1230,1930,250,150),
+                        findColor(800,2150,280,75)
                 },
         };
     }

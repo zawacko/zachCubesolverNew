@@ -1,6 +1,7 @@
 import org.cubexell.cubesolver.core.*;
 
 import java.util.Scanner;
+import java.io.Console;
 
 import com.pi4j.Pi4J;
 
@@ -17,23 +18,35 @@ public class Main {
         int OP_METHOD = 2;
         int KOCIEMBA_METHOD = 3;
 
-        System.out.println("Scramble Cube? (Y or N): ");
-        Scanner scanner = new Scanner(System.in);
-        String isScramblingCube = scanner.nextLine();
-//
-//        System.out.println("Use OP, Beginner, or Kociemba method (1 for OP, 2 for beginner, 3 for Kociemba): ");
-//        int method = scanner.nextInt();
 
-		int method = 1;
+        //Scanner scanner = new Scanner(System.in);
+        Console console = System.console();
+        String method = "B";
+        String isScramblingCube = "N";
 
         String cubeSolvingMethod;
-        if (method == 1) {
-            cubeSolvingMethod = "Old Pochmann";
-        } else if (method == 2) {
-            cubeSolvingMethod = "Beginner";
-        } else {
-            cubeSolvingMethod = "Kociemba";
+        if (console != null) {
+                System.out.println("Scramble Cube? (Y or N): ");
+                isScramblingCube = console.readLine();
+
+                System.out.println("Use OP, Beginner, or Kociemba method (O for OP, B for beginner, K for Kociemba): ");
+                method = console.readLine();
+
+
         }
+        else {
+                System.out.println("Console is null");
+        }
+
+            if ("O".equalsIgnoreCase(method)) {
+                    cubeSolvingMethod = "Old Pochmann";
+            }
+            else if ("B".equalsIgnoreCase(method)) {
+                    cubeSolvingMethod = "Beginner";
+            }
+            else {
+                    cubeSolvingMethod = "Kociemba";
+            }
 
 
         if (args.length > 0 && args[0] != null) {

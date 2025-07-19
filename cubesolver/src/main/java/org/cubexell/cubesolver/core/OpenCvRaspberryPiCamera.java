@@ -124,18 +124,18 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     public char[][] inspectLeftFace(char center) {
         return new char[][]{
                 {
-                        findColor(1850,300,225,100),
+                        findColor(1850,250,225,100),
                         findColor(2220,600,200,125),
-                        findColor(2525,800,90,50),
+                        findColor(2525,750,120,50),
                 },
                 {
-                        findColor(1850,725,300,215),
+                        findColor(1850,625,300,215),
                         center,
-                        findColor(2715,1180,125,250)
+                        findColor(2715,1180,100,250)
                 },
                 {
                         findColor(1850,1180,375,315),
-                        findColor(2425,1400,200,275),
+                        findColor(2425,1450,200,275),
                         findColor(2800,1640,150,300)
                 },
         };
@@ -145,8 +145,8 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         return new char[][]{
                 {
                         findColor(2490,2080,375,95),
-                        findColor(2020,2230,300,65),
-                        findColor(1900,2390,80,40),
+                        findColor(2020,2200,300,65),
+                        findColor(1910,2300,80,40),
                 },
                 {
                         findColor(2165,1900,375,125),
@@ -154,9 +154,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
                         findColor(1400,2200,150,90)
                 },
                 {
-                        findColor(1590,1675,500,180),
+                        findColor(1590,1700,500,160),
                         findColor(1230,1930,250,150),
-                        findColor(800,2150,280,75)
+                        findColor(800,2075,280,75)
                 },
         };
     }

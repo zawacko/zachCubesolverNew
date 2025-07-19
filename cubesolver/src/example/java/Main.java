@@ -10,23 +10,17 @@ import java.util.Arrays;
 import java.util.concurrent.locks.LockSupport;
 
 
-
-
-
 public class Main {
 
 	public static void main(String[] args) {
         int BEGINNER_METHOD = 1;
         int OP_METHOD = 2;
         int KOCIEMBA_METHOD = 3;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.console().reader());
 
-        //System.out.println("Scramble Cube? (Y or N): ");
-        //LockSupport.parkUntil(1000000000);
+        System.out.println("Scramble Cube? (Y or N): ");
         String isScramblingCube = scanner.nextLine();
-
-        //System.out.println("Use OP, Beginner, or Kociemba method (1 for OP, 2 for beginner, 3 for Kociemba): ");
-
+        System.out.println("Use OP, Beginner, or Kociemba method (1 for OP, 2 for beginner, 3 for Kociemba): ");
         int method = scanner.nextInt();
 
 		scanner.close();

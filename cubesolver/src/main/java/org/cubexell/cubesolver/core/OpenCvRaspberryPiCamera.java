@@ -238,11 +238,13 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
         referenceColors.put('W', new double[]{210, 130, 137});//white and it's LAB values
-        referenceColors.put('R', new double[]{85, 165, 160});
-        referenceColors.put('O', new double[]{145, 165, 175});
+        referenceColors.put('R', new double[]{50, 165, 150});
+        referenceColors.put('O', new double[]{115, 170, 170});
         referenceColors.put('Y', new double[]{165, 105, 194});
         referenceColors.put('G', new double[]{160, 80, 165});
         referenceColors.put('B', new double[]{130, 123, 106});
+
+        referenceColors.put('y', new double[]{40,  122, 144});//another yellow
         referenceColors.put('r', new double[]{175, 165, 150});//another red
         referenceColors.put('w', new double[]{130, 130, 135});//another white
         //referenceColors.put('b', new double[]{198, 124, 121});

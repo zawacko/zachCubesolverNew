@@ -1,4 +1,7 @@
 import org.cubexell.cubesolver.core.*;
+
+import java.util.Scanner;
+
 import com.pi4j.Pi4J;
 
 import com.pi4j.io.gpio.*;
@@ -6,80 +9,113 @@ import com.pi4j.io.gpio.*;
 import java.util.Arrays;
 
 
+
+
 public class Main {
 
 	public static void main(String[] args) {
-		String cubeSolvingMethod = "Beginner";
+        int BEGINNER_METHOD = 1;
+        int OP_METHOD = 2;
+        int KOCIEMBA_METHOD = 3;
+        Scanner scanner = new Scanner(System.in);
 
-		if(args.length > 0 && args[0]!=null){
-			cubeSolvingMethod = args[0];
-		}
+        System.out.println("Scramble Cube? (Y or N): ");
+        String isScramblingCube = scanner.nextLine();
 
-		Motor upMotor = new RohsStepperMotor (24, 25, 8, 7);
-		Motor downMotor = new RohsStepperMotor (1, 12, 16, 20);
-		Motor rightMotor = new RohsStepperMotor (21, 26, 19, 13);
-		Motor leftMotor = new RohsStepperMotor (2, 3, 4, 17);
-		Motor frontMotor = new RohsStepperMotor (6, 5, 0, 11);
-		Motor backMotor = new RohsStepperMotor (9, 10, 22, 27);
+        System.out.println("Use OP, Beginner, or Kociemba method (1 for OP, 2 for beginner, 3 for Kociemba): ");
+        int method = scanner.nextInt();
 
-		Robot robot = new RaspberryPiRobot(upMotor, downMotor, rightMotor, leftMotor, frontMotor, backMotor);
+		scanner.close();
 
-		//robot.executeMoves(new String[] {"L"});
-		//System.exit(0);
+        String cubeSolvingMethod;
+        if (method == 1) {
+            cubeSolvingMethod = "Old Pochmann";
+        } else if (method == 2) {
+            cubeSolvingMethod = "Beginner";
+        } else {
+            cubeSolvingMethod = "Kociemba";
+        }
 
-		System.out.println("Cube solving method: "+cubeSolvingMethod);
 
-		CubeScrambler scrambler = new CubeScrambler(robot);;
-//		String[] scrambleMoves = {"Ri","Bi","Ri","F2","L","F2","B","R","Ui","R","Fi","U","Li","B","L2","U2","B2","F2","L2","F"};
-//		scrambler.randomScramble();
-//		System.out.println ("------Scramble------------");
-//		for (int i = 0; i < scrambleMoves.length; i++) {
-//			System.out.print (scrambleMoves[i]+",");
-//		}
-//		System.out.println();
-		//char[][][] cubeColors = scrambler.scramble(scrambleMoves);
+        if (args.length > 0 && args[0] != null) {
+            cubeSolvingMethod = args[0];
+        }
 
-		CubeColorInspector inspector = new OpenCvRaspberryPiCamera(robot);
+        Motor upMotor = new RohsStepperMotor(24, 25, 8, 7);
+        Motor downMotor = new RohsStepperMotor(1, 12, 16, 20);
+        Motor rightMotor = new RohsStepperMotor(21, 26, 19, 13);
+        Motor leftMotor = new RohsStepperMotor(2, 3, 4, 17);
+        Motor frontMotor = new RohsStepperMotor(6, 5, 0, 11);
+        Motor backMotor = new RohsStepperMotor(9, 10, 22, 27);
 
-		char[][][] cubeColors = inspector.inspect();
-		//char[][][] cubeColors = scrambler.randomScramble();
-		Cube cube = new Cube(cubeColors);
-		System.out.println ("------After scramble------------");
-		System.out.println(cube.toString());
-		
-		CubeSolvingMethod solver;
+        Robot robot = new RaspberryPiRobot(upMotor, downMotor, rightMotor, leftMotor, frontMotor, backMotor);
 
-		if("Beginner".equalsIgnoreCase(cubeSolvingMethod)){
-			solver = new BeginnerMethod();
-		}
-		else if("Kociemba".equalsIgnoreCase(cubeSolvingMethod)) {
-			solver = new KociembaAlgorithm();
-		}
+
+        System.out.println("Cube solving method: " + cubeSolvingMethod);
+
+
+        CubeScrambler scrambler = new CubeScrambler(robot);
+
+		Cube cube;
+
+        CubeColorInspector inspector = new OpenCvRaspberryPiCamera(robot);
+        char[][][] cubeColors;
+
+		//String[] scrambleMoves = {"Ri","Bi","Ri","F2","L","F2","B","R","Ui","R","Fi","U","Li","B","L2","U2","B2","F2","L2","F"};
+
+
+        if ("Y".equalsIgnoreCase(isScramblingCube)) {
+			String[] scrambleMoves = scrambler.getScramble(20);
+			System.out.println("------Scramble-------------");
+			for (String scrambleMove : scrambleMoves) {
+				System.out.print(scrambleMove + ",");
+			}
+            cubeColors = scrambler.scramble(scrambleMoves);
+        }
 		else {
-			solver = new OldPochmannMethod();
-		}
+            cubeColors = inspector.inspect();
+        }
+
+        cube = new Cube(cubeColors);
+        System.out.println("------After scramble------------");
+        System.out.println(cube.toString());
+
+        CubeSolvingMethod solver;
+
+        if ("Beginner".equalsIgnoreCase(cubeSolvingMethod)) {
+            solver = new BeginnerMethod();
+        }
+		else if ("Kociemba".equalsIgnoreCase(cubeSolvingMethod)) {
+            solver = new KociembaAlgorithm();
+        }
+		else {
+            solver = new OldPochmannMethod();
+        }
 
 		String[] solution = solver.solve(cubeColors);
-		System.out.println ("------solution num moves: "+solution.length + "------------");
-		for (int i = 0; i < solution.length; i++) {
-			System.out.print (solution[i]+",");
-		}
-		System.out.println();
-		String[] simplifiedSolution = cube.simplifySolution(solution);
-		System.out.println ("------simplified solution num moves: "+simplifiedSolution.length + "------------");
-		for (int i = 0; i < simplifiedSolution.length; i++) {
-			System.out.print (simplifiedSolution[i]+",");
-			}
 
-		cube.simulateMoves(simplifiedSolution);
-		System.out.println ("------AfterSolving------------");
-		System.out.println(cube.toString());
 
-		robot.executeMoves(simplifiedSolution);
-		robot.resetMotors();
 
-		System.out.println ("finished");
+        System.out.println("------solution num moves: " + solution.length + "------------");
+        for (String s : solution) {
+            System.out.print(s + ",");
+        }
+        System.out.println();
+        String[] simplifiedSolution = cube.simplifySolution(solution);
+        System.out.println("------simplified solution num moves: " + simplifiedSolution.length + "------------");
+        for (String s : simplifiedSolution) {
+            System.out.print(s + ",");
+        }
 
-	}
+        cube.simulateMoves(simplifiedSolution);
+        System.out.println("------AfterSolving------------");
+        System.out.println(cube.toString());
+
+        robot.executeMoves(simplifiedSolution);
+        robot.resetMotors();
+
+        System.out.println("finished");
+
+    }
 
 }

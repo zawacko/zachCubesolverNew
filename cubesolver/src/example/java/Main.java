@@ -62,7 +62,6 @@ public class Main {
 
 		//String[] scrambleMoves = {"Ri","Bi","Ri","F2","L","F2","B","R","Ui","R","Fi","U","Li","B","L2","U2","B2","F2","L2","F"};
 
-
         if ("Y".equalsIgnoreCase(isScramblingCube)) {
 			String[] scrambleMoves = scrambler.getScramble(20);
 			System.out.println("------Scramble-------------");
@@ -75,7 +74,11 @@ public class Main {
             cubeColors = inspector.inspect();
         }
 
-        cube = new Cube(cubeColors);
+
+        char[][][] fixedCube = CubeFixer.fixCube(cubeColors);
+
+        cube = new Cube(fixedCube);
+
         System.out.println("------After scramble------------");
         System.out.println(cube.toString());
 

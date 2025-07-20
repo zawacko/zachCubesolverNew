@@ -227,7 +227,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         System.out.println("Median color is: " + medianLabColor);//prints out the color
         System.out.println();
 
-        imwrite("/home/amahl/cubesolver/cubesolver/square" + colorSquare + ".jpg", square);//saves the square for tuning
+        //imwrite("/home/amahl/cubesolver/cubesolver/square" + colorSquare + ".jpg", square);//saves the square for tuning
         colorSquare ++;
 
         return medianLabColor;//returns the final color

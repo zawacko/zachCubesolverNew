@@ -288,7 +288,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
                 bestColor = entry.getKey();//sets the new color as the best color so far
             }
         }
-        System.out.println("SpecificMedian Color is: " + bestColor);
         //the following if statements return the color that should be associated with the extra letters
         if (bestColor == 'r'|| bestColor == 's'|| bestColor == 'S'){
             return 'R';
@@ -301,12 +300,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
         if (bestColor == 'o' || bestColor == 'q'){
             return 'O';
-        }
-        if (bestColor == 'g' || bestColor == 'G'){
-            return 'G';
-        }
-        if (bestColor == 'y' || bestColor == 'Y'){
-            return 'Y';
         }
         return bestColor;
     }

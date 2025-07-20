@@ -75,9 +75,9 @@ public class Main {
         }
 
 
-        char[][][] fixedCube = CubeFixer.fixCube(cubeColors);
+        //char[][][] fixedCube = CubeFixer.fixCube(cubeColors);
 
-        cube = new Cube(fixedCube);
+        cube = new Cube(cubeColors);
 
         System.out.println("------After scramble------------");
         System.out.println(cube.toString());

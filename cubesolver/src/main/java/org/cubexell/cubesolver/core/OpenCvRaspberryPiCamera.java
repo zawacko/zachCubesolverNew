@@ -105,7 +105,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         return new char[][]{//returns a 2 dimensional array of the colors of the back face
                 {
                         findColor(970,800,90,45),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
-                        findColor(1250,450,250,60),
+                        findColor(1150,550,250,60),
                         findColor(1490,270,290,50),
                 },
                 {

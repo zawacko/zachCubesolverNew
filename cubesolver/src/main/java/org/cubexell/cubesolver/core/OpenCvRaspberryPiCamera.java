@@ -257,6 +257,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         referenceColors.put('b', new double[]{12,  129, 126});
         referenceColors.put('g', new double[]{40,  120, 140});
 
+        referenceColors.put('r', new double[]{12,  129, 126});
+        referenceColors.put('o', new double[]{40,  120, 140});
+
 
 
 
@@ -295,6 +298,12 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
         if (bestColor == 'o' || bestColor == 'q'){
             return 'O';
+        }
+        if (bestColor == 'g' || bestColor == 'G'){
+            return 'G';
+        }
+        if (bestColor == 'y' || bestColor == 'Y'){
+            return 'Y';
         }
         return bestColor;
     }

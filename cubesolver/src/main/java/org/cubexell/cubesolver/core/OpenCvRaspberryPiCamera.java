@@ -240,7 +240,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
         //non-shade colors
         referenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
-        referenceColors.put('Y', new double[]{200, 102, 205});
+        referenceColors.put('Y', new double[]{215, 102, 210});
 
         referenceColors.put('G', new double[]{160, 80, 165});
         referenceColors.put('B', new double[]{70,  130, 95});
@@ -259,6 +259,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 //
         referenceColors.put('r', new double[]{70,   167, 150});
         referenceColors.put('o', new double[]{105,  175, 173});
+        referenceColors.put('y', new double[]{140, 120, 180});
 
 
 

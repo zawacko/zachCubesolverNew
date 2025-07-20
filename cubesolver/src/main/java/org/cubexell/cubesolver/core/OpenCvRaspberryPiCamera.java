@@ -257,6 +257,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         normalReferenceColors.put('y', new double[]{140, 120, 180});
         normalReferenceColors.put('g', new double[]{85, 100, 155});
         normalReferenceColors.put('w', new double[]{111, 130, 140});
+        normalReferenceColors.put('s', new double[]{133, 160, 139});
 
 
 
@@ -313,9 +314,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
 
         //the following if statements return the color that should be associated with the extra letters
-//        if (bestColor == 'r'|| bestColor == 'R'){
-//            return 'R';
-//        }
+        if (bestColor == 's'){
+            return 'R';
+        }
 //        if (bestColor == 'w'|| bestColor == 'x'){
 //            return 'W';
 //        }

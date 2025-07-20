@@ -22,7 +22,7 @@ public class Main {
         //Scanner scanner = new Scanner(System.in);
         Console console = System.console();
         String method = "B";
-        String isScramblingCube = "Y";
+        String isScramblingCube = "N";
 
         String cubeSolvingMethod;
 

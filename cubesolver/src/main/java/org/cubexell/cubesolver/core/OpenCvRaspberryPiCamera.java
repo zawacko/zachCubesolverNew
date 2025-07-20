@@ -68,7 +68,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         System.out.println();
 
         System.out.println("Down Face");
-        char[][] downFace = inspectDownFace('Y' );
+        char[][] downFace = inspectDownFace('Y');
         System.out.println();
 
 
@@ -313,18 +313,18 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
 
         //the following if statements return the color that should be associated with the extra letters
-        if (bestColor == 'r'|| bestColor == 's'|| bestColor == 'S'){
-            return 'R';
-        }
-        if (bestColor == 'w'|| bestColor == 'x'){
-            return 'W';
-        }
-        if (bestColor == 'b'){
-            return 'B';
-        }
-        if (bestColor == 'o' || bestColor == 'q'){
-            return 'O';
-        }
+//        if (bestColor == 'r'|| bestColor == 'R'){
+//            return 'R';
+//        }
+//        if (bestColor == 'w'|| bestColor == 'x'){
+//            return 'W';
+//        }
+//        if (bestColor == 'b'){
+//            return 'B';
+//        }
+//        if (bestColor == 'o' || bestColor == 'q'){
+//            return 'O';
+//        }
         return bestColor;
     }
 

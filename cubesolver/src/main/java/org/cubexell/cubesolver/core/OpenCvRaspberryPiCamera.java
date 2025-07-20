@@ -237,12 +237,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     public static char classifyColorDeltaELab(float l, float a, float b){
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
+
+        //non-shade colors
         referenceColors.put('W', new double[]{210, 130, 137});//white and it's LAB values
         referenceColors.put('R', new double[]{100, 180, 170});
         referenceColors.put('O', new double[]{150, 175, 195});
         referenceColors.put('Y', new double[]{165, 105, 194});
         referenceColors.put('G', new double[]{160, 80, 165});
-        referenceColors.put('B', new double[]{70, 130, 95});
+        referenceColors.put('B', new double[]{70,  130, 95});
+
+        //colors when in shadow (bottom face)
+        referenceColors.put('w', new double[]{35,  130, 132});
+        referenceColors.put('y', new double[]{45,  128, 149});
+
 
 
 
@@ -268,6 +275,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
                 bestColor = entry.getKey();//sets the new color as the best color so far
             }
         }
+        System.out.println("SpecificMedian Color is: " + bestColor);
         //the following if statements return the color that should be associated with the extra letters
         if (bestColor == 'r'|| bestColor == 's'|| bestColor == 'S'){
             return 'R';

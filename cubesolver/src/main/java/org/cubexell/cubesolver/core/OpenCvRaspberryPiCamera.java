@@ -238,23 +238,25 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
         referenceColors.put('W', new double[]{210, 130, 137});//white and it's LAB values
-        referenceColors.put('R', new double[]{50, 165, 150});
-        referenceColors.put('O', new double[]{100, 170, 165});
+        referenceColors.put('R', new double[]{100, 180, 170});
+        referenceColors.put('O', new double[]{150, 175, 195});
         referenceColors.put('Y', new double[]{165, 105, 194});
         referenceColors.put('G', new double[]{160, 80, 165});
-        referenceColors.put('B', new double[]{130, 120, 106});
+        referenceColors.put('B', new double[]{70, 130, 95});
 
-        referenceColors.put('y', new double[]{40,  122, 144});//another yellow
-        referenceColors.put('r', new double[]{175, 165, 150});//another red
-        referenceColors.put('w', new double[]{130, 130, 135});//another white
-        //referenceColors.put('b', new double[]{198, 124, 121});
-        referenceColors.put('o', new double[]{226, 138, 142});//another orange
-        referenceColors.put('s', new double[]{133, 190, 160});//another red
-        referenceColors.put('S', new double[]{210, 158, 110});//another red
-        referenceColors.put('x', new double[]{182, 122, 126});//another white
-        referenceColors.put('q', new double[]{181, 155, 164});//another orange
 
-        referenceColors.put('X', new double[]{30,  120, 130});//another white
+
+//        referenceColors.put('y', new double[]{40,  122, 144});//another yellow
+//        referenceColors.put('r', new double[]{175, 165, 150});//another red
+//        referenceColors.put('w', new double[]{130, 130, 135});//another white
+//        //referenceColors.put('b', new double[]{198, 124, 121});
+//        referenceColors.put('o', new double[]{226, 138, 142});//another orange
+//        referenceColors.put('s', new double[]{133, 190, 160});//another red
+//        referenceColors.put('S', new double[]{210, 158, 110});//another red
+//        referenceColors.put('x', new double[]{182, 122, 126});//another white
+//        referenceColors.put('q', new double[]{181, 155, 164});//another orange
+//
+//        referenceColors.put('X', new double[]{30,  120, 130});//another white
 
         char bestColor = 'U';//Set to U so that if something goes wrong and no color is detected, U is returned to signify unkown
         double minDeltaE = Double.MAX_VALUE;//sets it to the maximum possible value that can be stored in a double so that it doesn't end up being less than the minimum distance from the reference color

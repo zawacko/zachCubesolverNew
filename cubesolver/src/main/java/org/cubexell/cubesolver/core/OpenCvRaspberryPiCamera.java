@@ -261,6 +261,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         referenceColors.put('o', new double[]{95,  175, 173});
         referenceColors.put('y', new double[]{140, 120, 180});
         referenceColors.put('g', new double[]{85, 100, 155});
+        referenceColors.put('w', new double[]{111, 130, 140});
 
 
 

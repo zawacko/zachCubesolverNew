@@ -33,6 +33,9 @@ import java.awt.Graphics2D;
 import java.util.*;
 import java.util.Arrays;
 
+import java.io.FileWriter;
+
+
 public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     int imageWidth = 3280;//default image width
     int imageHeight = 2464;//default image height
@@ -246,7 +249,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         referenceColors.put('B', new double[]{70,  130, 95});
 
         referenceColors.put('R', new double[]{80, 180, 170});
-        referenceColors.put('O', new double[]{140, 170, 185});
+        referenceColors.put('O', new double[]{50, 128, 128});
 
         referenceColors.put('r', new double[]{60,   167, 155});
         //referenceColors.put('o', new double[]{100,  170, 170});

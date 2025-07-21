@@ -307,7 +307,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             
         //the following if statements return the color that should be associated with the extra letters
         if (bestColor == 's'){
-            return 'R';
+            bestColor = 'R';
         }
 //        if (bestColor == 'w'|| bestColor == 'x'){
 //            return 'W';

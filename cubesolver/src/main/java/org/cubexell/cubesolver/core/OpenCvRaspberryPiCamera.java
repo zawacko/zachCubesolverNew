@@ -249,10 +249,10 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         referenceColors.put('B', new double[]{70,  130, 95});
 
         referenceColors.put('R', new double[]{80, 180, 170});
-        referenceColors.put('O', new double[]{80, 128, 128});
+        referenceColors.put('O', new double[]{90, 132, 132});
 
         referenceColors.put('r', new double[]{60,   167, 155});
-        referenceColors.put('o', new double[]{100,  128, 128});
+        referenceColors.put('o', new double[]{100,  132, 132});
         referenceColors.put('y', new double[]{140, 120, 180});
         referenceColors.put('g', new double[]{85, 100, 155});
         referenceColors.put('w', new double[]{111, 130, 140});
@@ -292,6 +292,20 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
                 bestColor = entry.getKey();//sets the new color as the best color so far
             }
         }
+
+        Mat lab = new Mat(1, 1, CV_8UC3);
+        lab.ptr(0, 0).put((byte) l, (byte) a, (byte) b);
+        Mat bgr = new Mat();
+        cvtColor(lab, bgr, COLOR_Lab2BGR);
+
+        byte[] bgrPixel = new byte[3];
+        bgr.ptr(0, 0).get(bgrPixel);
+
+        int blue = Byte.toUnsignedInt(bgrPixel[0]);
+        int green = Byte.toUnsignedInt(bgrPixel[1]);
+        int red = Byte.toUnsignedInt(bgrPixel[2]);
+
+        System.out.println(red + green + blue);
             
         //the following if statements return the color that should be associated with the extra letters
         if (bestColor == 's'){

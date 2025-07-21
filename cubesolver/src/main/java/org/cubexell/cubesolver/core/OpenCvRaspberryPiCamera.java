@@ -305,7 +305,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         int green = Byte.toUnsignedInt(bgrPixel[1]);
         int red = Byte.toUnsignedInt(bgrPixel[2]);
 
-        System.out.println(red + green + blue);
+        System.out.println(red + ", " + green + ", " + blue);
             
         //the following if statements return the color that should be associated with the extra letters
         if (bestColor == 's'){

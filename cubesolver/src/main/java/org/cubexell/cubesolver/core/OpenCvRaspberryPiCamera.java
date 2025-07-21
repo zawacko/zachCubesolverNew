@@ -102,64 +102,61 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     }
 
     public char[][] inspectBackFace(char center) {
-        boolean isOther = false;
         return new char[][]{//returns a 2 dimensional array of the colors of the back face
                 {
-                        findColor(970,800,90,45, isOther),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
-                        findColor(1225,550,175,60, isOther),
-                        findColor(1490,270,290,50, isOther),
+                        findColor(970,800,90,45),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
+                        findColor(1225,550,175,60),
+                        findColor(1490,270,290,50),
                 },
                 {
-                        findColor(840,1200,120,150, isOther),
+                        findColor(840,1200,120,150),
                         center,
-                        findColor(1450,680,280,215, isOther)
+                        findColor(1450,680,280,215)
                 },
                 {
-                        findColor(720,1725,120,125, isOther),
-                        findColor(1010,1500,220,250, isOther),
-                        findColor(1390,1220,320,290, isOther)
+                        findColor(720,1725,120,125),
+                        findColor(1010,1500,220,250),
+                        findColor(1390,1220,320,290)
                 },
         };
     }
 
     public char[][] inspectLeftFace(char center) {
-        boolean isOther = false;
         return new char[][]{
                 {
-                        findColor(1850,250,225,100, isOther),
-                        findColor(2350,600,125,125, isOther),
-                        findColor(2575,800,70,50, isOther),
+                        findColor(1850,250,225,100),
+                        findColor(2350,600,125,125),
+                        findColor(2575,800,70,50),
                 },
                 {
-                        findColor(1850,675,300,215, isOther),
+                        findColor(1850,675,300,215),
                         center,
-                        findColor(2715,1180,100,250, isOther)
+                        findColor(2715,1180,100,250)
                 },
                 {
-                        findColor(1850,1180,325,315, isOther),
-                        findColor(2425,1450,200,275, isOther),
-                        findColor(2800,1640,150,300, isOther)
+                        findColor(1850,1180,325,315),
+                        findColor(2425,1450,200,275),
+                        findColor(2800,1640,150,300)
                 },
         };
     }
 
     public char[][] inspectDownFace(char center) {
-        boolean isOther = true;
         return new char[][]{
                 {
-                        findColor(2490,2080,375,95, isOther),
-                        findColor(2020,2200,300,65, isOther),
-                        findColor(1910,2300,80,40, isOther),
+                        findColor(2490,2080,375,95),
+                        findColor(2020,2200,300,65),
+                        findColor(1910,2300,80,40),
                 },
                 {
-                        findColor(2165,1900,375,125, isOther),
+                        findColor(2165,1900,375,125),
                         center,
-                        findColor(1400,2200,150,60, isOther)
+                        findColor(1400,2200,150,60)
                 },
                 {
-                        findColor(1590,1750,500,100, isOther),
-                        findColor(1230,1930,250,150, isOther),
-                        findColor(800,2075,280,50, isOther)
+                        findColor(1590,1750,500,100),
+                        findColor(1230,1930,250,150),
+                        findColor(800,2075,280,50)
                 },
         };
     }
@@ -182,19 +179,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
     }
 
-    public char findColor(int squareX, int squareY, int squareWidth, int squareHeight, boolean isOther) {//the peramiters are the x and y coordinates of the top-left corner, width, and height of the rectangle. (0,0) is the top-left corner of the entire image.
+    public char findColor(int squareX, int squareY, int squareWidth, int squareHeight) {//the peramiters are the x and y coordinates of the top-left corner, width, and height of the rectangle. (0,0) is the top-left corner of the entire image.
         Mat image = imread(outputImage);//turns the image into a "Mat" so that opencv can proccess it
 
         Mat square = new Mat(image, new Rect(squareX, squareY, squareWidth, squareHeight));//creates a new mat of just the rectangle
 
-        char color = classifyColor(square, isOther);//gets the color of that rectangle
+        char color = classifyColor(square);//gets the color of that rectangle
 
         drawSquare(squareX,squareY,squareWidth,squareHeight);//draws the rectangle in the image so that we can look at it and tune it's position
 
         return color;
     }
 
-    public static char classifyColor(Mat square, boolean isOther) {
+    public static char classifyColor(Mat square) {
 
         Mat labSquare = new Mat();//initializes a mat
         cvtColor(square, labSquare, COLOR_BGR2Lab);//converts the original square from BGR to LAB colorspace and saves it to labSquare
@@ -225,7 +222,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
         System.out.println("Median values: L: " + medianL + " A: " + medianA + " B: " + medianB);//prints out the final median values for tuning
 
-        char medianLabColor = classifyColorDeltaELab(medianL, medianA, medianB, isOther);//gets what color the values represent
+        char medianLabColor = classifyColorDeltaELab(medianL, medianA, medianB);//gets what color the values represent
 
         System.out.println("Median color is: " + medianLabColor);//prints out the color
         System.out.println();
@@ -237,27 +234,26 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
     }
 
-    public static char classifyColorDeltaELab(float l, float a, float b, boolean isOther){
+    public static char classifyColorDeltaELab(float l, float a, float b){
         // Real world values
-        Map<Character, double[]> normalReferenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
-        Map<Character, double[]> otherReferenceColors = new HashMap<>();
+        Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
 
         //non-shade colors
-        normalReferenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
-        normalReferenceColors.put('Y', new double[]{215, 102, 210});
+        referenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
+        referenceColors.put('Y', new double[]{215, 102, 210});
 
-        normalReferenceColors.put('G', new double[]{160, 80, 165});
-        normalReferenceColors.put('B', new double[]{70,  130, 95});
+        referenceColors.put('G', new double[]{160, 80, 165});
+        referenceColors.put('B', new double[]{70,  130, 95});
 
-        normalReferenceColors.put('R', new double[]{80, 180, 170});
-        normalReferenceColors.put('O', new double[]{140, 170, 185});
+        referenceColors.put('R', new double[]{80, 180, 170});
+        referenceColors.put('O', new double[]{140, 170, 185});
 
-        normalReferenceColors.put('r', new double[]{60,   167, 155});
-        //normalReferenceColors.put('o', new double[]{100,  170, 170});
-        normalReferenceColors.put('y', new double[]{140, 120, 180});
-        normalReferenceColors.put('g', new double[]{85, 100, 155});
-        normalReferenceColors.put('w', new double[]{111, 130, 140});
-        normalReferenceColors.put('s', new double[]{133, 160, 139});
+        referenceColors.put('r', new double[]{60,   167, 155});
+        //referenceColors.put('o', new double[]{100,  170, 170});
+        referenceColors.put('y', new double[]{140, 120, 180});
+        referenceColors.put('g', new double[]{85, 100, 155});
+        referenceColors.put('w', new double[]{111, 130, 140});
+        referenceColors.put('s', new double[]{133, 160, 139});
 
 
 
@@ -268,14 +264,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 //        referenceColors.put('b', new double[]{12,  129, 126});
 //        referenceColors.put('g', new double[]{40,  120, 140});
 //
-        otherReferenceColors.put('r', new double[]{70,   167, 155});
-        otherReferenceColors.put('o', new double[]{100,  170, 170});
-        otherReferenceColors.put('y', new double[]{140, 120, 180});
-        otherReferenceColors.put('g', new double[]{85, 100, 155});
-        otherReferenceColors.put('w', new double[]{111, 130, 140});
-        otherReferenceColors.put('b', new double[]{70,  130, 95});//same values as above
-
-
 
 
 //        referenceColors.put('y', new double[]{40,  122, 144});//another yellow
@@ -292,27 +280,16 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
         char bestColor = 'U';//Set to U so that if something goes wrong and no color is detected, U is returned to signify unkown
         double minDeltaE = Double.MAX_VALUE;//sets it to the maximum possible value that can be stored in a double so that it doesn't end up being less than the minimum distance from the reference color
-        if (!isOther){
-            for(Map.Entry<Character, double[]> entry : normalReferenceColors.entrySet()){//goes through all reference colors
-                double[] ref = entry.getValue();//gets the LAB values from the reference color
-                double deltaE = Math.sqrt(Math.pow(l - ref[0], 2)/5 + Math.pow(a - ref[1], 2) + Math.pow(b - ref[2], 2));//uses the pythagorean theorem to calculate the distance of the actual color to the reference color
-                if (deltaE < minDeltaE){//if the distance is the least that has been tested so far
-                    minDeltaE = deltaE;//sets the new distance as the minimum
-                    bestColor = entry.getKey();//sets the new color as the best color so far
-                }
+        
+        for(Map.Entry<Character, double[]> entry : referenceColors.entrySet()){//goes through all reference colors
+            double[] ref = entry.getValue();//gets the LAB values from the reference color
+            double deltaE = Math.sqrt(Math.pow(l - ref[0], 2)/5 + Math.pow(a - ref[1], 2) + Math.pow(b - ref[2], 2));//uses the pythagorean theorem to calculate the distance of the actual color to the reference color
+            if (deltaE < minDeltaE){//if the distance is the least that has been tested so far
+                minDeltaE = deltaE;//sets the new distance as the minimum
+                bestColor = entry.getKey();//sets the new color as the best color so far
             }
         }
-        else{
-            for(Map.Entry<Character, double[]> entry : otherReferenceColors.entrySet()){//goes through all reference colors
-                double[] ref = entry.getValue();//gets the LAB values from the reference color
-                double deltaE = Math.sqrt(Math.pow(l - ref[0], 2)/5 + Math.pow(a - ref[1], 2) + Math.pow(b - ref[2], 2));//uses the pythagorean theorem to calculate the distance of the actual color to the reference color
-                if (deltaE < minDeltaE){//if the distance is the least that has been tested so far
-                    minDeltaE = deltaE;//sets the new distance as the minimum
-                    bestColor = entry.getKey();//sets the new color as the best color so far
-                }
-            }
-        }
-
+            
         //the following if statements return the color that should be associated with the extra letters
         if (bestColor == 's'){
             return 'R';

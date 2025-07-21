@@ -319,7 +319,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 //            return 'O';
 //        }
 
-        if (bestColor == 'R'){
+        if (bestColor == 'R' || bestColor == 'r'){
             blue = blue*255/red;
             green = green*255/red;
             red = 255;

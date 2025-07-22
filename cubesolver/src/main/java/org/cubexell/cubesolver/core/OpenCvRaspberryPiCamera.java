@@ -1,17 +1,12 @@
 package org.cubexell.cubesolver.core;
 
 // For core classes like Mat, Scalar, and Size:
-import org.bytedeco.javacpp.FloatPointer;
-import org.bytedeco.javacpp.indexer.FloatRawIndexer;
 import org.bytedeco.javacpp.indexer.UByteIndexer;
 import org.bytedeco.opencv.opencv_core.*;
-import org.opencv.core.CvType;
-import org.opencv.imgproc.Imgproc;
 
 import static org.bytedeco.opencv.global.opencv_imgproc.cvtColor;
 import static org.bytedeco.opencv.global.opencv_imgproc.GaussianBlur;
 import static org.bytedeco.opencv.global.opencv_core.countNonZero;
-import static org.bytedeco.opencv.global.opencv_imgproc.COLOR_BGR2HSV;
 import static org.bytedeco.opencv.global.opencv_core.inRange;
 
 // For global functions in image processing and reading images, use static imports:
@@ -22,31 +17,33 @@ import static org.bytedeco.opencv.global.opencv_imgproc.*;           // for imag
 // For other global core functions (if needed):
 import static org.bytedeco.opencv.global.opencv_core.*;
 import static org.cubexell.cubesolver.core.CubeConstants.*;
-import static org.cubexell.cubesolver.core.CubeConstants.SEE_OPPOSITE_FACE_UP;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.awt.Graphics2D;
 import java.util.*;
-import java.util.Arrays;
-
-import java.io.FileWriter;
 
 
 public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     int imageWidth = 3280;//default image width
     int imageHeight = 2464;//default image height
     public static int colorSquare = 0;
+    public static boolean autoTune = false;
+    public static double[][][][] realReferenceColors = new double[3][8][6][3];
+    public static int face;
+    public static int piece;
+    public static int color;
+
 
     Robot robot;
 
     String outputImage = "cubeColors.jpg";//this will be the name of the image of the cube that is saved to the RaspberryPi
 
-    public OpenCvRaspberryPiCamera(Robot robot) {
+    public OpenCvRaspberryPiCamera(Robot robot, boolean autoTune) {
         this.robot = robot;
+        this.autoTune = autoTune;
     }
 
     public void startup() {
@@ -59,6 +56,10 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
     public char[][][] inspect() {
         captureImage();
+
+        if(!autoTune){
+            readLabReferenceValues();
+        }
 
         char[][][] cubeColors = new char[6][3][3];//creates a blank matrix of the cube
 
@@ -100,11 +101,75 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         cubeColors[RIGHT_FACE_INDEX] = rightFace;
         cubeColors[UP_FACE_INDEX] = upFace;
 
+        if(autoTune){
+            //stuff
+
+
+            captureImage();
+
+            outputImage = "tuningStuff.jpg";
+
+            inspectBackFace('B');
+
+            inspectLeftFace('O');
+
+            inspectDownFace('Y');
+
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+            captureImage();
+            inspectBackFace('G');
+            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+            captureImage();
+            inspectLeftFace('R');
+            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+            captureImage();
+            inspectDownFace('W');
+            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+
+            //stuff
+
+            captureImage();
+
+            outputImage = "tuningStuff.jpg";
+
+            inspectBackFace('B');
+
+            inspectLeftFace('O');
+
+            inspectDownFace('Y');
+
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+            captureImage();
+            inspectBackFace('G');
+            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+            captureImage();
+            inspectLeftFace('R');
+            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+            captureImage();
+            inspectDownFace('W');
+            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+
+            saveLabReferenceValues(realReferenceColors);
+        }
+
         return cubeColors;
 
     }
 
     public char[][] inspectBackFace(char center) {
+        face = 0;
+        piece = 0;
+        color = convertFaceColorToIndex(center);
         return new char[][]{//returns a 2 dimensional array of the colors of the back face
                 {
                         findColor(970,800,90,45),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
@@ -125,6 +190,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     }
 
     public char[][] inspectLeftFace(char center) {
+        face = 1;
+        piece = 0;
+        color = convertFaceColorToIndex(center);
         return new char[][]{
                 {
                         findColor(1850,250,225,100),
@@ -145,6 +213,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     }
 
     public char[][] inspectDownFace(char center) {
+        face = 0;
+        piece = 0;
+        color = convertFaceColorToIndex(center);
         return new char[][]{
                 {
                         findColor(2490,2080,375,95),
@@ -199,7 +270,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         Mat labSquare = new Mat();//initializes a mat
         cvtColor(square, labSquare, COLOR_BGR2Lab);//converts the original square from BGR to LAB colorspace and saves it to labSquare
 
-        List<Integer> listOfL = new ArrayList<>();//initializeds a list that will hold all of the l values of the pixles
+        List<Integer> listOfL = new ArrayList<>();//initializes a list that will hold all of the l values of the pixles
         List<Integer> listOfA = new ArrayList<>();
         List<Integer> listOfB = new ArrayList<>();
 
@@ -241,20 +312,34 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
 
-        //non-shade colors
-        referenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
-        referenceColors.put('Y', new double[]{215, 102, 210});
+//        //non-shade colors
+//        referenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
+//        referenceColors.put('Y', new double[]{215, 102, 210});
+//
+//        referenceColors.put('G', new double[]{160, 80, 165});
+//        referenceColors.put('B', new double[]{70,  130, 95});
+//
+//        referenceColors.put('R', new double[]{80, 180, 170});
+//
+//        referenceColors.put('r', new double[]{60,   167, 155});
+//        referenceColors.put('y', new double[]{140, 120, 180});
+//        referenceColors.put('g', new double[]{85, 100, 155});
+//        referenceColors.put('w', new double[]{111, 130, 140});
+//        referenceColors.put('s', new double[]{133, 160, 139});
 
-        referenceColors.put('G', new double[]{160, 80, 165});
-        referenceColors.put('B', new double[]{70,  130, 95});
-
-        referenceColors.put('R', new double[]{80, 180, 170});
-
-        referenceColors.put('r', new double[]{60,   167, 155});
-        referenceColors.put('y', new double[]{140, 120, 180});
-        referenceColors.put('g', new double[]{85, 100, 155});
-        referenceColors.put('w', new double[]{111, 130, 140});
-        referenceColors.put('s', new double[]{133, 160, 139});
+        if(autoTune){
+            realReferenceColors[face][piece][color][0] = l;
+            realReferenceColors[face][piece][color][1] = a;
+            realReferenceColors[face][piece][color][2] = b;
+            return 'U';
+        }else{
+            referenceColors.put('W', realReferenceColors[face][piece][UP_FACE_INDEX]);
+            referenceColors.put('Y', realReferenceColors[face][piece][DOWN_FACE_INDEX]);
+            referenceColors.put('G', realReferenceColors[face][piece][FRONT_FACE_INDEX]);
+            referenceColors.put('B', realReferenceColors[face][piece][BACK_FACE_INDEX]);
+            referenceColors.put('R', realReferenceColors[face][piece][RIGHT_FACE_INDEX]);
+            referenceColors.put('O', realReferenceColors[face][piece][LEFT_FACE_INDEX]);
+        }
 
 
 
@@ -319,12 +404,14 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 //            return 'O';
 //        }
 
-        if (bestColor == 'R' || bestColor == 'r'){
+        if (bestColor == 'R' || bestColor == 'O'){
             blue = blue*255/red;
             green = green*255/red;
             red = 255;
             if(green - blue > 25){
                 return 'O';
+            }else{
+                return 'R';
             }
         }
         return bestColor;
@@ -358,6 +445,59 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             return list.get((n-1)/2);//returns the middle number as the median
         } else{//if it is even
             return (list.get(n/2-1) + list.get(n/2))/2;//takes the mean of the two middle numbers to return as the median
+        }
+    }
+
+    public static int convertFaceColorToIndex(char faceColor){
+        if(faceColor == 'W'){
+            return UP_FACE_INDEX;
+        }else if(faceColor == 'Y'){
+            return DOWN_FACE_INDEX;
+        }else if(faceColor == 'G'){
+            return FRONT_FACE_INDEX;
+        }else if(faceColor == 'B'){
+            return BACK_FACE_INDEX;
+        }else if(faceColor == 'R'){
+            return RIGHT_FACE_INDEX;
+        }else{
+            return LEFT_FACE_INDEX;
+        }
+    }
+    public static void saveLabReferenceValues(double[][][][] labValues){
+        try(FileWriter writer = new FileWriter("labValues.txt")){
+            for(int i = 0; i < labValues.length; i++){
+                for(int j = 0; j < labValues[i].length; j++){
+                    for(int k = 0; k < labValues[i][j].length; k++){
+                        double[] lab = labValues[i][j][k];
+
+                        writer.write(i + " " + j + " " + k + " "
+                                + lab[0] + " " + lab[1] + " " + lab[2] + "\n");
+                    }
+                }
+            }
+
+            System.out.println("Saved Lab Values to labValues.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void readLabReferenceValues(){
+        double[][][][] tunedLabValues = new double[3][8][6][3];
+        try (BufferedReader reader = new BufferedReader(new FileReader("labValues.txt"))){
+            String line;
+            while((line = reader.readLine()) != null){
+                String[] parts = line.trim().split(" ");
+                int i = Integer.parseInt(parts[0]);
+                int j = Integer.parseInt(parts[1]);
+                int k = Integer.parseInt(parts[2]);
+
+                realReferenceColors[i][j][k][0] = Double.parseDouble(parts[3]);
+                realReferenceColors[i][j][k][1] = Double.parseDouble(parts[4]);
+                realReferenceColors[i][j][k][2] = Double.parseDouble(parts[5]);
+            }
+            System.out.println("Loaded Lab values");
+        }catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

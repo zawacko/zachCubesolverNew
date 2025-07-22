@@ -23,6 +23,7 @@ public class Main {
         Console console = System.console();
         String method = "B";
         String isScramblingCube = "N";
+        boolean autoTune = false;
 
         String cubeSolvingMethod;
 
@@ -38,6 +39,11 @@ public class Main {
         }
         else {
             cubeSolvingMethod = "Kociemba";
+        }
+        if (args[2] != null){
+            if(args[2].equals("Y")){
+                autoTune = true;
+            }
         }
 
         Motor upMotor = new RohsStepperMotor(24, 25, 8, 7);
@@ -57,7 +63,7 @@ public class Main {
 
 		Cube cube;
 
-        CubeColorInspector inspector = new OpenCvRaspberryPiCamera(robot);
+        CubeColorInspector inspector = new OpenCvRaspberryPiCamera(robot, autoTune);
         char[][][] cubeColors;
 
 		//String[] scrambleMoves = {"Ri","Bi","Ri","F2","L","F2","B","R","Ui","R","Fi","U","Li","B","L2","U2","B2","F2","L2","F"};

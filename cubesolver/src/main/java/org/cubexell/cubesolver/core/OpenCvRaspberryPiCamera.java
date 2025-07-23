@@ -452,6 +452,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }else if(faceColor == 'G'){
             return FRONT_FACE_INDEX;
         }else if(faceColor == 'B'){
+            System.out.println("checking back face");
             return BACK_FACE_INDEX;
         }else if(faceColor == 'R'){
             return RIGHT_FACE_INDEX;

@@ -43,6 +43,7 @@ public class Main {
         if (args[2] != null){
             if(args[2].equals("Y")){
                 autoTune = true;
+                System.out.println("autoTuning");
             }
         }
 

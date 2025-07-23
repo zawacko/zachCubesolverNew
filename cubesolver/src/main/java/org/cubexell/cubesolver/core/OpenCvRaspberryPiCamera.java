@@ -103,9 +103,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         if(autoTune){
             robot.executeMoves(ROTATE_AROUND_CORNER);
 
-            captureImage();
-
             outputImage = "tuningStuff.jpg";
+
+            captureImage();
 
             inspectBackFace('O');
 
@@ -130,8 +130,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
 
             robot.executeMoves(ROTATE_AROUND_CORNER);
-
-            outputImage = "tuningStuff.jpg";
 
             captureImage();
 

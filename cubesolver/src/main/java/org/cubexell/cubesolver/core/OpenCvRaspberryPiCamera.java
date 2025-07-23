@@ -101,8 +101,35 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         cubeColors[UP_FACE_INDEX] = upFace;
 
         if(autoTune){
-            //stuff
+            robot.executeMoves(ROTATE_AROUND_CORNER);
 
+            captureImage();
+
+            outputImage = "tuningStuff.jpg";
+
+            inspectBackFace('O');
+
+            inspectLeftFace('Y');
+
+            inspectDownFace('B');
+
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+            captureImage();
+            inspectBackFace('R');
+            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+            captureImage();
+            inspectLeftFace('W');
+            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+
+            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+            captureImage();
+            inspectDownFace('G');
+            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+
+            robot.executeMoves(ROTATE_AROUND_CORNER);
 
             outputImage = "tuningStuff.jpg";
 
@@ -130,33 +157,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             inspectDownFace('R');
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
 
-            //stuff
-
-            captureImage();
-
-            outputImage = "tuningStuff.jpg";
-
-            inspectBackFace('O');
-
-            inspectLeftFace('Y');
-
-            inspectDownFace('B');
-
-
-            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
-            captureImage();
-            inspectBackFace('R');
-            robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
-
-            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
-            captureImage();
-            inspectLeftFace('W');
-            robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
-
-            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
-            captureImage();
-            inspectDownFace('G');
-            robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+            robot.executeMoves(ROTATE_AROUND_CORNER);
 
             saveLabReferenceValues(realReferenceColors);
         }

@@ -29,7 +29,6 @@ import java.util.*;
 public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     int imageWidth = 3280;//default image width
     int imageHeight = 2464;//default image height
-    public static int colorSquare = 0;
     public static boolean autoTune = false;
     public static double[][][][] realReferenceColors = new double[3][8][6][3];
     public static int face;
@@ -109,26 +108,26 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             captureImage();
 
-            inspectBackFace('B');
+            inspectBackFace('Y');
 
-            inspectLeftFace('O');
+            inspectLeftFace('B');
 
-            inspectDownFace('Y');
+            inspectDownFace('O');
 
 
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
             captureImage();
-            inspectBackFace('G');
+            inspectBackFace('W');
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
             captureImage();
-            inspectLeftFace('R');
+            inspectLeftFace('G');
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
             captureImage();
-            inspectDownFace('W');
+            inspectDownFace('R');
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
 
             //stuff
@@ -137,26 +136,26 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             outputImage = "tuningStuff.jpg";
 
-            inspectBackFace('B');
+            inspectBackFace('O');
 
-            inspectLeftFace('O');
+            inspectLeftFace('Y');
 
-            inspectDownFace('Y');
+            inspectDownFace('B');
 
 
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
             captureImage();
-            inspectBackFace('G');
+            inspectBackFace('R');
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
             captureImage();
-            inspectLeftFace('R');
+            inspectLeftFace('W');
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
             captureImage();
-            inspectDownFace('W');
+            inspectDownFace('G');
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
 
             saveLabReferenceValues(realReferenceColors);
@@ -300,9 +299,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
         System.out.println("Median color is: " + medianLabColor);//prints out the color
         System.out.println();
-
-        //imwrite("/home/amahl/cubesolver/cubesolver/square" + colorSquare + ".jpg", square);//saves the square for tuning
-        colorSquare ++;
 
         return medianLabColor;//returns the final color
 

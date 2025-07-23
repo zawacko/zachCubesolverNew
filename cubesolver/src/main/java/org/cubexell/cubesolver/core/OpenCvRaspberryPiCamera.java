@@ -312,7 +312,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
 
-//        //non-shade colors
+
 //        referenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
 //        referenceColors.put('Y', new double[]{215, 102, 210});
 //
@@ -377,14 +377,14 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
 
         Mat lab = new Mat(1, 1, CV_8UC3);
-        lab.ptr(0, 0).put((byte) l, (byte) a, (byte) b);
+        lab.ptr(0, 0).put((byte) l, (byte) a, (byte) b);//put the lab values into a new 1x1 mat
         Mat bgr = new Mat();
-        cvtColor(lab, bgr, COLOR_Lab2BGR);
+        cvtColor(lab, bgr, COLOR_Lab2BGR);//convert it to bgr
 
         byte[] bgrPixel = new byte[3];
-        bgr.ptr(0, 0).get(bgrPixel);
+        bgr.ptr(0, 0).get(bgrPixel);//extract the bgr values to an array
 
-        int blue = Byte.toUnsignedInt(bgrPixel[0]);
+        int blue = Byte.toUnsignedInt(bgrPixel[0]);//get each bgr value
         int green = Byte.toUnsignedInt(bgrPixel[1]);
         int red = Byte.toUnsignedInt(bgrPixel[2]);
 
@@ -405,10 +405,10 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 //        }
 
         if (bestColor == 'R' || bestColor == 'O'){
-            blue = blue*255/red;
-            green = green*255/red;
-            red = 255;
-            if(green - blue > 25){
+            blue = blue*255/red;//scale up the blue value to perfect lighting
+            green = green*255/red;//scale up green value
+            red = 255;//scale up red value
+            if(green - blue > 25){//if there is a lot more green, it must be orange
                 return 'O';
             }else{
                 return 'R';

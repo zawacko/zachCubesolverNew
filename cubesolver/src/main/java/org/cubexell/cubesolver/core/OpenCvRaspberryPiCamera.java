@@ -105,9 +105,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             //stuff
 
 
-            captureImage();
-
             outputImage = "tuningStuff.jpg";
+
+            captureImage();
 
             inspectBackFace('B');
 

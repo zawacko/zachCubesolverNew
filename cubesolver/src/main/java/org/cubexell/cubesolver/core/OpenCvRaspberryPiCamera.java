@@ -304,7 +304,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
     }
 
-    public static char classifyColorDeltaELab(float l, float a, float b){
+    public static char classifyColorDeltaELab(int l, int a, int b){
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
 
@@ -327,6 +327,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             realReferenceColors[face][piece][color][0] = l;
             realReferenceColors[face][piece][color][1] = a;
             realReferenceColors[face][piece][color][2] = b;
+            piece++;
             return 'U';
         }else{
             referenceColors.put('W', realReferenceColors[face][piece][UP_FACE_INDEX]);

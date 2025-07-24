@@ -1,18 +1,15 @@
 package org.cubexell.cubesolver.core;
 
 // For core classes like Mat, Scalar, and Size:
-import org.bytedeco.javacpp.indexer.UByteIndexer;
+import org.bytedeco.javacpp.indexer.UByteIndexer;   //for accessing pixel values
 import org.bytedeco.opencv.opencv_core.*;
 
-import static org.bytedeco.opencv.global.opencv_imgproc.cvtColor;
-import static org.bytedeco.opencv.global.opencv_imgproc.GaussianBlur;
-import static org.bytedeco.opencv.global.opencv_core.countNonZero;
-import static org.bytedeco.opencv.global.opencv_core.inRange;
+import static org.bytedeco.opencv.global.opencv_imgproc.cvtColor;   //for changing mat color spaces
 
 // For global functions in image processing and reading images, use static imports:
-import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
+import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;   //for reading images
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imwrite;  // if you write images
-import static org.bytedeco.opencv.global.opencv_imgproc.*;           // for image processing functions
+import static org.bytedeco.opencv.global.opencv_imgproc.*;          // for image processing functions
 
 // For other global core functions (if needed):
 import static org.bytedeco.opencv.global.opencv_core.*;
@@ -101,13 +98,13 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         cubeColors[UP_FACE_INDEX] = upFace;
 
         if(autoTune){
-            robot.executeMoves(ROTATE_AROUND_CORNER);
+            robot.executeMoves(ROTATE_AROUND_CORNER);//effectively change orientation to tune more colors for each square
 
-            outputImage = "tuningStuff.jpg";
+            outputImage = "tuningStuff1.jpg";
 
             captureImage();
 
-            inspectBackFace('O');
+            inspectBackFace('O');//orange is now on back, so center is orange
 
             inspectLeftFace('Y');
 
@@ -115,21 +112,26 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
 
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+            outputImage = "tuningStuff1F.jpg";
             captureImage();
             inspectBackFace('R');
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+            outputImage = "tuningStuff1R.jpg";
             captureImage();
             inspectLeftFace('W');
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+            outputImage = "tuningStuff1U.jpg";
             captureImage();
             inspectDownFace('G');
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
 
             robot.executeMoves(ROTATE_AROUND_CORNER);
+
+            outputImage = "tuningStuff2.jpg";
 
             captureImage();
 
@@ -141,23 +143,26 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
 
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
+            outputImage = "tuningStuff2F.jpg";
             captureImage();
             inspectBackFace('W');
             robot.executeMoves(SEE_OPPOSITE_FACE_FRONT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
+            outputImage = "tuningStuff2R.jpg";
             captureImage();
             inspectLeftFace('G');
             robot.executeMoves(SEE_OPPOSITE_FACE_RIGHT);
 
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
+            outputImage = "tuningStuff2U.jpg";
             captureImage();
             inspectDownFace('R');
             robot.executeMoves(SEE_OPPOSITE_FACE_UP);
 
             robot.executeMoves(ROTATE_AROUND_CORNER);
 
-            saveLabReferenceValues(realReferenceColors);
+            saveLabReferenceValues(realReferenceColors);//write the values to file to be compared to later values instead of manually tuning each value
         }
 
         return cubeColors;
@@ -307,21 +312,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         // Real world values
         Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
 
-
-//        referenceColors.put('W', new double[]{205, 121, 133});//white and it's LAB values
-//        referenceColors.put('Y', new double[]{215, 102, 210});
-//
-//        referenceColors.put('G', new double[]{160, 80, 165});
-//        referenceColors.put('B', new double[]{70,  130, 95});
-//
-//        referenceColors.put('R', new double[]{80, 180, 170});
-//
-//        referenceColors.put('r', new double[]{60,   167, 155});
-//        referenceColors.put('y', new double[]{140, 120, 180});
-//        referenceColors.put('g', new double[]{85, 100, 155});
-//        referenceColors.put('w', new double[]{111, 130, 140});
-//        referenceColors.put('s', new double[]{133, 160, 139});
-
         if(autoTune){
             realReferenceColors[face][piece][color][0] = l;
             realReferenceColors[face][piece][color][1] = a;
@@ -336,29 +326,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             referenceColors.put('R', realReferenceColors[face][piece][RIGHT_FACE_INDEX]);
             referenceColors.put('O', realReferenceColors[face][piece][LEFT_FACE_INDEX]);
         }
-
-
-
-        //colors when in shadow (bottom face)
-//        referenceColors.put('w', new double[]{35,  130, 132});
-//        referenceColors.put('y', new double[]{45,  128, 149});
-//
-//        referenceColors.put('b', new double[]{12,  129, 126});
-//        referenceColors.put('g', new double[]{40,  120, 140});
-//
-
-
-//        referenceColors.put('y', new double[]{40,  122, 144});//another yellow
-//        referenceColors.put('r', new double[]{175, 165, 150});//another red
-//        referenceColors.put('w', new double[]{130, 130, 135});//another white
-//        //referenceColors.put('b', new double[]{198, 124, 121});
-//        referenceColors.put('o', new double[]{226, 138, 142});//another orange
-//        referenceColors.put('s', new double[]{133, 190, 160});//another red
-//        referenceColors.put('S', new double[]{210, 158, 110});//another red
-//        referenceColors.put('x', new double[]{182, 122, 126});//another white
-//        referenceColors.put('q', new double[]{181, 155, 164});//another orange
-//
-//        referenceColors.put('X', new double[]{30,  120, 130});//another white
 
         char bestColor = 'U';//Set to U so that if something goes wrong and no color is detected, U is returned to signify unkown
         double minDeltaE = Double.MAX_VALUE;//sets it to the maximum possible value that can be stored in a double so that it doesn't end up being less than the minimum distance from the reference color

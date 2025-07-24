@@ -15,12 +15,12 @@ import static org.bytedeco.opencv.global.opencv_imgproc.*;          // for image
 import static org.bytedeco.opencv.global.opencv_core.*;
 import static org.cubexell.cubesolver.core.CubeConstants.*;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
 import java.util.*;
+import java.util.List;
 
 
 public class OpenCvRaspberryPiCamera implements CubeColorInspector{
@@ -368,12 +368,14 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             Graphics2D g2d = image.createGraphics();//sets up the graphics of the image
 
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+
             g2d.setColor(Color.BLACK);//sets the drawing color to red
 
             g2d.drawRect(squareX, squareY, squareWidth, squareHeight);//draws the rectangle given the coordinates of the top left corner, the width, and the height
 
-
             g2d.drawString(String.valueOf(color),squareX + (squareWidth/2),squareY +(squareHeight/2));
+
             g2d.dispose();//gets rid of the graphics when its done to reduce clutter
 
             ImageIO.write(image, "jpg", new File(outputImage));//replaces the original image with the new image that has the rectangle drawn on it

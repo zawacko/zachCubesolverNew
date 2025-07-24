@@ -259,7 +259,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
         char color = classifyColor(square);//gets the color of that rectangle
 
-        drawSquare(squareX,squareY,squareWidth,squareHeight);//draws the rectangle in the image so that we can look at it and tune it's position
+        drawSquare(squareX,squareY,squareWidth,squareHeight, color);//draws the rectangle in the image so that we can look at it and tune it's position
 
         return color;
     }
@@ -362,7 +362,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         return bestColor;
     }
 
-    public void drawSquare(int squareX, int squareY, int squareWidth, int squareHeight) {
+    public void drawSquare(int squareX, int squareY, int squareWidth, int squareHeight, char color) {
         try {
             BufferedImage image = ImageIO.read(new File(outputImage));//loads the image
 
@@ -372,6 +372,8 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             g2d.drawRect(squareX, squareY, squareWidth, squareHeight);//draws the rectangle given the coordinates of the top left corner, the width, and the height
 
+
+            g2d.drawString(String.valueOf(color),squareX + (squareWidth/2),squareY +(squareHeight/2));
             g2d.dispose();//gets rid of the graphics when its done to reduce clutter
 
             ImageIO.write(image, "jpg", new File(outputImage));//replaces the original image with the new image that has the rectangle drawn on it

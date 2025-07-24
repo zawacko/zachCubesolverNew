@@ -171,19 +171,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         color = convertFaceColorToIndex(center);
         return new char[][]{//returns a 2 dimensional array of the colors of the back face
                 {
-                        findColor(970,800,90,45),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
+                        findColor(1000,730,90,45),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
                         findColor(1225,550,175,60),
-                        findColor(1490,270,290,50),
+                        findColor(1550,250,150,100),
                 },
                 {
-                        findColor(840,1200,120,150),
+                        findColor(860,1200,120,150),
                         center,
-                        findColor(1450,680,280,215)
+                        findColor(1500,650,230,150)
                 },
                 {
-                        findColor(720,1725,120,125),
-                        findColor(1010,1500,220,250),
-                        findColor(1390,1220,320,290)
+                        findColor(750,1725,120,125),
+                        findColor(1075,1500,150,150),
+                        findColor(1490,1150,220,250)
                 },
         };
     }
@@ -194,19 +194,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         color = convertFaceColorToIndex(center);
         return new char[][]{
                 {
-                        findColor(1850,250,225,100),
-                        findColor(2350,600,125,125),
-                        findColor(2575,800,70,50),
+                        findColor(2000,225,150,100),
+                        findColor(2350,530,125,125),
+                        findColor(2625,750,70,50),
                 },
                 {
-                        findColor(1850,675,300,215),
+                        findColor(2000,675,225,170),
                         center,
-                        findColor(2715,1180,100,250)
+                        findColor(2715,1130,100,200)
                 },
                 {
-                        findColor(1850,1180,325,315),
-                        findColor(2425,1450,200,275),
-                        findColor(2800,1640,150,300)
+                        findColor(1920,1180,325,200),
+                        findColor(2425,1450,240,200),
+                        findColor(2830,1620,120,300)
                 },
         };
     }
@@ -217,19 +217,19 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         color = convertFaceColorToIndex(center);
         return new char[][]{
                 {
-                        findColor(2490,2080,375,95),
-                        findColor(2020,2200,300,65),
-                        findColor(1910,2300,80,40),
+                        findColor(2560,2060,250,80),
+                        findColor(2120,2170,200,65),
+                        findColor(1950,2260,80,30),
                 },
                 {
                         findColor(2165,1900,375,125),
                         center,
-                        findColor(1400,2200,150,60)
+                        findColor(1400,2150,150,60)
                 },
                 {
-                        findColor(1590,1750,500,100),
-                        findColor(1230,1930,250,150),
-                        findColor(800,2075,280,50)
+                        findColor(1590,1700,500,100),
+                        findColor(1230,1850,250,150),
+                        findColor(850,2025,200,50)
                 },
         };
     }
@@ -368,7 +368,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             Graphics2D g2d = image.createGraphics();//sets up the graphics of the image
 
-            g2d.setColor(Color.RED);//sets the drawing color to red
+            g2d.setColor(Color.BLACK);//sets the drawing color to red
 
             g2d.drawRect(squareX, squareY, squareWidth, squareHeight);//draws the rectangle given the coordinates of the top left corner, the width, and the height
 

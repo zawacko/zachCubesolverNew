@@ -376,7 +376,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             g2d.drawString(String.valueOf(color),squareX + (squareWidth/2),squareY +(squareHeight/2));
 
-            g2d.dispose();//gets rid of the graphics when its done to reduce clutter
+            g2d.dispose();//gets rid of the graphics when it's done to reduce clutter
 
             ImageIO.write(image, "jpg", new File(outputImage));//replaces the original image with the new image that has the rectangle drawn on it
 

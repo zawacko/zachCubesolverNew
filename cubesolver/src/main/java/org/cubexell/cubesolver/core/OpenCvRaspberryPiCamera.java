@@ -27,7 +27,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     int imageWidth = 3280;//default image width
     int imageHeight = 2464;//default image height
     public static boolean autoTune = false;
-    public static double[][][][] realReferenceColors = new double[3][8][6][3];
+    public static int[][][][] realReferenceColors = new int[3][8][6][3];
     public static int face;
     public static int piece;
     public static int color;
@@ -52,10 +52,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
     public char[][][] inspect() {
         captureImage();
-
-        if(!autoTune){
-            readLabReferenceValues();
-        }
 
         char[][][] cubeColors = new char[6][3][3];//creates a blank matrix of the cube
 
@@ -310,7 +306,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
     public static char classifyColorDeltaELab(int l, int a, int b){
         // Real world values
-        Map<Character, double[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
+        Map<Character, int[]> referenceColors = new HashMap<>();//this initializes a map that matches characters to an array of unique LAB values. Each character represents one of the colors on the cube, and each color may have multiple characters and therfore LAB values that deal with different lighting conditions.
 
         if(autoTune){
             realReferenceColors[face][piece][color][0] = l;
@@ -330,8 +326,8 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         char bestColor = 'U';//Set to U so that if something goes wrong and no color is detected, U is returned to signify unkown
         double minDeltaE = Double.MAX_VALUE;//sets it to the maximum possible value that can be stored in a double so that it doesn't end up being less than the minimum distance from the reference color
         
-        for(Map.Entry<Character, double[]> entry : referenceColors.entrySet()){//goes through all reference colors
-            double[] ref = entry.getValue();//gets the LAB values from the reference color
+        for(Map.Entry<Character, int[]> entry : referenceColors.entrySet()){//goes through all reference colors
+            int[] ref = entry.getValue();//gets the LAB values from the reference color
             double deltaE = Math.sqrt(Math.pow(l - ref[0], 2)/5 + Math.pow(a - ref[1], 2) + Math.pow(b - ref[2], 2));//uses the pythagorean theorem to calculate the distance of the actual color to the reference color
             if (deltaE < minDeltaE){//if the distance is the least that has been tested so far
                 minDeltaE = deltaE;//sets the new distance as the minimum
@@ -352,20 +348,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         int red = Byte.toUnsignedInt(bgrPixel[2]);
 
         System.out.println(red + ", " + green + ", " + blue);
-            
-        //the following if statements return the color that should be associated with the extra letters
-        if (bestColor == 's'){
-            bestColor = 'R';
-        }
-//        if (bestColor == 'w'|| bestColor == 'x'){
-//            return 'W';
-//        }
-//        if (bestColor == 'b'){
-//            return 'B';
-//        }
-//        if (bestColor == 'o' || bestColor == 'q'){
-//            return 'O';
-//        }
 
         if (bestColor == 'R' || bestColor == 'O'){
             blue = blue*255/red;//scale up the blue value to perfect lighting
@@ -419,7 +401,6 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }else if(faceColor == 'G'){
             return FRONT_FACE_INDEX;
         }else if(faceColor == 'B'){
-            System.out.println("checking back face");
             return BACK_FACE_INDEX;
         }else if(faceColor == 'R'){
             return RIGHT_FACE_INDEX;
@@ -427,12 +408,12 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
             return LEFT_FACE_INDEX;
         }
     }
-    public static void saveLabReferenceValues(double[][][][] labValues){
+    public static void saveLabReferenceValues(int[][][][] labValues){
         try(FileWriter writer = new FileWriter("labValues.txt")){
             for(int i = 0; i < labValues.length; i++){
                 for(int j = 0; j < labValues[i].length; j++){
                     for(int k = 0; k < labValues[i][j].length; k++){
-                        double[] lab = labValues[i][j][k];
+                        int[] lab = labValues[i][j][k];
 
                         writer.write(i + " " + j + " " + k + " "
                                 + lab[0] + " " + lab[1] + " " + lab[2] + "\n");
@@ -446,7 +427,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         }
     }
     public static void readLabReferenceValues(){
-        double[][][][] tunedLabValues = new double[3][8][6][3];
+        int[][][][] tunedLabValues = new int[3][8][6][3];
         try (BufferedReader reader = new BufferedReader(new FileReader("labValues.txt"))){
             String line;
             while((line = reader.readLine()) != null){
@@ -455,9 +436,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
                 int j = Integer.parseInt(parts[1]);
                 int k = Integer.parseInt(parts[2]);
 
-                realReferenceColors[i][j][k][0] = Double.parseDouble(parts[3]);
-                realReferenceColors[i][j][k][1] = Double.parseDouble(parts[4]);
-                realReferenceColors[i][j][k][2] = Double.parseDouble(parts[5]);
+                realReferenceColors[i][j][k][0] = Integer.parseInt(parts[3]);
+                realReferenceColors[i][j][k][1] = Integer.parseInt(parts[4]);
+                realReferenceColors[i][j][k][2] = Integer.parseInt(parts[5]);
             }
             System.out.println("Loaded Lab values");
         }catch (IOException e) {

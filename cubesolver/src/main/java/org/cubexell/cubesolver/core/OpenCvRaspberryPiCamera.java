@@ -198,7 +198,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         color = convertFaceColorToIndex(center);
         return new char[][]{
                 {
-                        findColor(2000,225,200,100),
+                        findColor(2000,225,150,100),
                         findColor(2350,530,125,125),
                         findColor(2625,750,70,50),
                 },
@@ -208,9 +208,9 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
                         findColor(2715,1130,100,200)
                 },
                 {
-                        findColor(1850,1180,325,315),
+                        findColor(1920,1180,325,315),
                         findColor(2425,1450,240,275),
-                        findColor(2800,1570,150,300)
+                        findColor(2830,1570,120,300)
                 },
         };
     }
@@ -221,14 +221,14 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         color = convertFaceColorToIndex(center);
         return new char[][]{
                 {
-                        findColor(2490,2050,375,60),
+                        findColor(2560,2050,250,80),
                         findColor(2120,2170,200,65),
                         findColor(1950,2260,80,40),
                 },
                 {
                         findColor(2165,1900,375,125),
                         center,
-                        findColor(1400,2130,150,60)
+                        findColor(1400,2150,150,60)
                 },
                 {
                         findColor(1590,1700,500,100),
@@ -386,7 +386,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
             Graphics2D g2d = image.createGraphics();//sets up the graphics of the image
 
-            g2d.setColor(Color.RED);//sets the drawing color to red
+            g2d.setColor(Color.BLACK);//sets the drawing color to red
 
             g2d.drawRect(squareX, squareY, squareWidth, squareHeight);//draws the rectangle given the coordinates of the top left corner, the width, and the height
 

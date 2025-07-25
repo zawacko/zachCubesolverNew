@@ -26,7 +26,7 @@ public class Main {
         //Scanner scanner = new Scanner(System.in);
         Console console = System.console();
         String method = "B";
-        String isScramblingCube = "N";
+        String isScramblingCube = "Y";
         boolean isManual = false;
         boolean autoTune = false;
 

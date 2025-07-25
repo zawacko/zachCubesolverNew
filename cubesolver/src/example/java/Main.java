@@ -35,6 +35,17 @@ public class Main {
         if (args.length > 3 && args[0] != null) {
             method = args[0];
             isScramblingCube = args[1];
+            if (args[2] != null){
+                if(args[2].equalsIgnoreCase("Y")){
+                    autoTune = true;
+                    System.out.println("autoTuning");
+                }
+            }
+            if (args[3] != null){
+                if (args[3].equalsIgnoreCase("Y")){
+                    isManual = true;
+                }
+            }
         }
         if ("O".equalsIgnoreCase(method)) {
             cubeSolvingMethod = "Old Pochmann";
@@ -45,17 +56,7 @@ public class Main {
         else {
             cubeSolvingMethod = "Kociemba";
         }
-        if (args[2] != null){
-            if(args[2].equalsIgnoreCase("Y")){
-                autoTune = true;
-                System.out.println("autoTuning");
-            }
-        }
-        if (args[3] != null){
-            if (args[3].equalsIgnoreCase("Y")){
-                isManual = true;
-            }
-        }
+
 
         Motor upMotor = new RohsStepperMotor(24, 25, 8, 7);
         Motor downMotor = new RohsStepperMotor(1, 12, 16, 20);

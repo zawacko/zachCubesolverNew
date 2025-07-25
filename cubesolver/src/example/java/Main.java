@@ -1,5 +1,6 @@
 import org.cubexell.cubesolver.core.*;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.io.Console;
 
@@ -11,9 +12,12 @@ import java.util.Arrays;
 import java.util.concurrent.locks.LockSupport;
 
 
-public class Main {
 
-	public static void main(String[] args) {
+
+public class Main {
+	public static void main(String[] args) throws IOException, InterruptedException {
+
+
         int BEGINNER_METHOD = 1;
         int OP_METHOD = 2;
         int KOCIEMBA_METHOD = 3;
@@ -23,11 +27,12 @@ public class Main {
         Console console = System.console();
         String method = "B";
         String isScramblingCube = "N";
+        boolean isManual = false;
         boolean autoTune = false;
 
         String cubeSolvingMethod;
 
-        if (args.length > 1 && args[0] != null) {
+        if (args.length > 3 && args[0] != null) {
             method = args[0];
             isScramblingCube = args[1];
         }
@@ -41,9 +46,14 @@ public class Main {
             cubeSolvingMethod = "Kociemba";
         }
         if (args[2] != null){
-            if(args[2].equals("Y")){
+            if(args[2].equalsIgnoreCase("Y")){
                 autoTune = true;
                 System.out.println("autoTuning");
+            }
+        }
+        if (args[3] != null){
+            if (args[3].equalsIgnoreCase("Y")){
+                isManual = true;
             }
         }
 
@@ -88,6 +98,12 @@ public class Main {
 
         System.out.println("------After scramble------------");
         System.out.println(cube.toString());
+
+        if (isManual){
+            String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
+            Runtime.getRuntime().exec(cmd).waitFor();
+            System.out.println();
+        }
 
         CubeSolvingMethod solver;
 

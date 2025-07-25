@@ -51,6 +51,10 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
     }
 
     public char[][][] inspect() {
+        if(!autoTune){
+            readLabReferenceValues();
+        }
+
         captureImage();
 
         char[][][] cubeColors = new char[6][3][3];//creates a blank matrix of the cube

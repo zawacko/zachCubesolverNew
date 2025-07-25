@@ -87,6 +87,7 @@ public class Main {
 				System.out.print(scrambleMove + ",");
 			}
             cubeColors = scrambler.scramble(scrambleMoves);
+            Thread.sleep(5000);
         }
 		else {
             cubeColors = inspector.inspect();

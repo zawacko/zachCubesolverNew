@@ -99,11 +99,18 @@ public class Main {
         System.out.println("------After scramble------------");
         System.out.println(cube.toString());
 
-        if (isManual){
-            String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
-            Runtime.getRuntime().exec(cmd).waitFor();
-            System.out.println();
-        }
+//        if (isManual){
+//            String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
+//            int i = 0;
+//            while (true) {
+//                Runtime.getRuntime().exec(cmd).waitFor();
+//
+//                if (i <= cmd.length){
+//                    for (int j = 0; j < )
+//                        System.out.println();
+//                }
+//            }
+//        }
 
         CubeSolvingMethod solver;
 

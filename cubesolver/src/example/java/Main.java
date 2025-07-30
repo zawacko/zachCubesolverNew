@@ -27,7 +27,6 @@ public class Main {
         Console console = System.console();
         String method = "B";
         String isScramblingCube = "Y";
-        boolean isManual = false;
         boolean autoTune = false;
 
         String cubeSolvingMethod;
@@ -39,11 +38,6 @@ public class Main {
                 if(args[2].equalsIgnoreCase("Y")){
                     autoTune = true;
                     System.out.println("autoTuning");
-                }
-            }
-            if (args[3] != null){
-                if (args[3].equalsIgnoreCase("Y")){
-                    isManual = true;
                 }
             }
         }
@@ -100,19 +94,6 @@ public class Main {
 
         System.out.println("------After scramble------------");
         System.out.println(cube.toString());
-
-//        if (isManual){
-//            String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
-//            int i = 0;
-//            while (true) {
-//                Runtime.getRuntime().exec(cmd).waitFor();
-//
-//                if (i <= cmd.length){
-//                    for (int j = 0; j < )
-//                        System.out.println();
-//                }
-//            }
-//        }
 
         CubeSolvingMethod solver;
 

@@ -30,7 +30,7 @@ public class Main {
         boolean autoTune = false;
 
         String cubeSolvingMethod;
-
+//commit
         if (args.length > 2 && args[0] != null) {
             method = args[0];
             isScramblingCube = args[1];

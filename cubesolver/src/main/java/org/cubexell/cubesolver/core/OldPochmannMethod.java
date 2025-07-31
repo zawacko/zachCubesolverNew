@@ -327,12 +327,12 @@ public class OldPochmannMethod
             while (!"WR".equalsIgnoreCase(faceColor) &&
                     !"RW".equalsIgnoreCase(faceColor)){
                 executeEdgeSwap(faceColor, solution);
-                if (unsolvedEdges.contains(faceColor)){
+                if (unsolvedEdges.contains(faceColor)) {
                     unsolvedEdges.remove(faceColor);
                     unsolvedEdges.remove(cube.getReverseOfString(faceColor));
                 }
                 faceColor = getEdgeToBeSolved();
-               
+
                 System.out.println("faceColor: " + faceColor);
                 System.out.println("num unsolved edges: " + unsolvedEdges.size());
             }

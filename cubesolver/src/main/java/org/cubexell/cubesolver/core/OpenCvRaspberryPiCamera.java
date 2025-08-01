@@ -359,16 +359,16 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
 
         System.out.println(red + ", " + green + ", " + blue);
 
-//        if (bestColor == 'R' || bestColor == 'O'){
-//            blue = blue*255/red;//scale up the blue value to perfect lighting
-//            green = green*255/red;//scale up green value
-//            red = 255;//scale up red value
-//            if(green - blue > 25){//if there is a lot more green, it must be orange
-//                return 'O';
-//            }else{
-//                return 'R';
-//            }
-//        }
+        if (bestColor == 'R'){
+            blue = blue*255/red;//scale up the blue value to perfect lighting
+            green = green*255/red;//scale up green value
+            red = 255;//scale up red value
+            if(green - blue > 25){//if there is a lot more green, it must be orange
+                return 'O';
+            }else{
+                return 'R';
+            }
+        }
         return bestColor;
     }
 

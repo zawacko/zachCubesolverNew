@@ -16,15 +16,6 @@ import java.util.concurrent.locks.LockSupport;
 
 public class Main {
 	public static void main(String[] args) throws IOException, InterruptedException {
-
-
-        int BEGINNER_METHOD = 1;
-        int OP_METHOD = 2;
-        int KOCIEMBA_METHOD = 3;
-
-
-        //Scanner scanner = new Scanner(System.in);
-        Console console = System.console();
         String method = "B";
         String isScramblingCube = "Y";
         boolean autoTune = false;
@@ -60,6 +51,20 @@ public class Main {
         Motor backMotor = new RohsStepperMotor(9, 10, 22, 27);
 
         Robot robot = new RaspberryPiRobot(upMotor, downMotor, rightMotor, leftMotor, frontMotor, backMotor);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutdown hook triggered");
+            System.out.flush();
+            try{
+                robot.resetMotors();
+            } catch(Exception e){
+                System.out.println("exception occured while trying to reset motors"+e);
+            }
+            System.out.flush();
+            try{
+                Thread.sleep(2000);
+            } catch(InterruptedException ignored){}
+        }));
 
 
         System.out.println("Cube solving method: " + cubeSolvingMethod);

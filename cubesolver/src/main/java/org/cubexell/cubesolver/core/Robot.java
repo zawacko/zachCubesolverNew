@@ -1,3 +1,4 @@
+
 package org.cubexell.cubesolver.core;
 
 public abstract class Robot {

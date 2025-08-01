@@ -174,7 +174,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         piece = 0;
         color = convertFaceColorToIndex(center);
         int offsetX = -175;
-        int offsetY = -100;
+        int offsetY = 100;
         return new char[][]{//returns a 2 dimensional array of the colors of the back face
                 {
                         findColor(1000+offsetX,730+offsetY,90,45),//gets the color of the top-left piece of the back face. coordinates are of the top-left corner, width, and height.
@@ -199,7 +199,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         piece = 0;
         color = convertFaceColorToIndex(center);
         int offsetX = -200;
-        int offsetY = -100;
+        int offsetY = 100;
         return new char[][]{
                 {
                         findColor(2000+offsetX,225+offsetY,150,100),
@@ -224,7 +224,7 @@ public class OpenCvRaspberryPiCamera implements CubeColorInspector{
         piece = 0;
         color = convertFaceColorToIndex(center);
         int offsetX = -200;
-        int offsetY = -100;
+        int offsetY = 100;
         return new char[][]{
                 {
                         findColor(2560+offsetX,2060+offsetY,250,80),
